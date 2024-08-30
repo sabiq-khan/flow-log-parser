@@ -21,7 +21,7 @@ class LogStatus(str, Enum):
 @dataclass
 class FlowLogRecord:
     """
-    For reference: https://docs.aws.amazon.com/vpc/latest/userguide/flow-log-records.html#flow-logs-fields
+    For reference, see: https://docs.aws.amazon.com/vpc/latest/userguide/flow-log-records.html#flow-logs-fields
     """
     version: Version
     account_id: str

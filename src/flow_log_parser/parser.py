@@ -23,7 +23,10 @@ class FlowLogParser:
             print(HELP_MESSAGE)
             sys.exit(0)
         elif (len(raw_args) != 2*(FlowLogParserArgs.argc)):
-            raise ValueError("Invalid number of arguments. Run this script with '--help' to see usage.")
+            raise ValueError(
+                "Invalid number of arguments. "
+                "Run this script with '--help' to see usage."
+            )
 
         while len(raw_args) > 0:
             option: str = raw_args.pop(0).lstrip("--")
@@ -34,7 +37,10 @@ class FlowLogParser:
         try:
             validated_args: FlowLogParserArgs = FlowLogParserArgs(**args_read)
         except TypeError:
-            raise ValueError("Invalid arguments. Run this script with '--help' to see usage.")
+            raise ValueError(
+                "Invalid arguments. "
+                "Run this script with '--help' to see usage."
+            )
             
         return validated_args
 
@@ -68,8 +74,12 @@ class FlowLogParser:
                         action=columns[12],
                         log_status=columns[13]
                     )
-                except (IndexError, TypeError) as e:
-                    raise ValueError("Invalid flow log format.\nExpected 'version account-id interface-id srcaddr dstaddr srcport dstport protocol packets bytes start end action log-status'.")
+                except (IndexError, ValueError, TypeError):
+                    raise ValueError(
+                        "Invalid flow log format. "
+                        "Expected 'version account-id interface-id srcaddr dstaddr srcport dstport protocol packets bytes start end action log-status'. "
+                        "For reference, see: https://docs.aws.amazon.com/vpc/latest/userguide/flow-log-records.html#flow-logs-fields"
+                    )
         
                 flow_log_records.append(flow_log_record)
 
