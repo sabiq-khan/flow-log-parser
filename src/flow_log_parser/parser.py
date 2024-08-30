@@ -52,7 +52,7 @@ class FlowLogParser:
                 columns: List[str] = line.split(" ")
                 
                 try:
-                    flow_log: FlowLogRecord = FlowLogRecord(
+                    flow_log_record: FlowLogRecord = FlowLogRecord(
                         version=int(columns[0]),
                         account_id=columns[1],
                         interface_id=columns[2],
@@ -71,7 +71,7 @@ class FlowLogParser:
                 except (IndexError, TypeError) as e:
                     raise ValueError("Invalid flow log format.\nExpected 'version account-id interface-id srcaddr dstaddr srcport dstport protocol packets bytes start end action log-status'.")
         
-                flow_log_records.append(flow_log)
+                flow_log_records.append(flow_log_record)
 
         return flow_log_records
 
