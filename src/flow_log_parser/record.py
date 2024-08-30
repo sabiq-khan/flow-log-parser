@@ -1,5 +1,7 @@
 from enum import Enum
 from dataclasses import dataclass
+from constants import IANA_PROTOCOLS
+
 
 class Version(int, Enum):
     _2: 2
@@ -26,14 +28,19 @@ class FlowLogRecord:
     version: Version
     account_id: str
     interface_id: str
-    src_addr: str
-    dst_addr: str
-    src_port: int
-    dst_port: int
-    protocol: int
+    srcaddr: str
+    dstaddr: str
+    srcport: int
+    dstport: int
+    protocol_number: int
     packets: int
     bytes: int
     start: int
     end: int
     action: Action
     log_status: LogStatus
+
+
+    @property
+    def protocol(self):
+        return IANA_PROTOCOLS[self.protocol_number]
