@@ -2,7 +2,7 @@ import sys
 from dataclasses import dataclass
 from typing import Dict, List, ClassVar
 from constants import HELP_MESSAGE
-from flow_log import FlowLog
+from record import FlowLogRecord
 
 
 @dataclass
@@ -41,8 +41,8 @@ class FlowLogParser:
     def __init__(self, args: FlowLogParserArgs):
         self.args: FlowLogParserArgs = args
 
-    def _read_flow_log_file(self, flow_log_file: str) -> List[FlowLog]:
-        flow_logs: List[FlowLog] = []
+    def _read_flow_log_file(self, flow_log_file: str) -> List[FlowLogRecord]:
+        flow_log_records: List[FlowLogRecord] = []
 
         with open(file=flow_log_file, mode="r") as file:
             for line in file:
@@ -52,7 +52,7 @@ class FlowLogParser:
                 columns: List[str] = line.split(" ")
                 
                 try:
-                    flow_log: FlowLog = FlowLog(
+                    flow_log: FlowLogRecord = FlowLogRecord(
                         version=int(columns[0]),
                         account_id=columns[1],
                         interface_id=columns[2],
@@ -71,14 +71,14 @@ class FlowLogParser:
                 except (IndexError, TypeError) as e:
                     raise ValueError("Invalid flow log format.\nExpected 'version account-id interface-id srcaddr dstaddr srcport dstport protocol packets bytes start end action log-status'.")
         
-                flow_logs.append(flow_log)
+                flow_log_records.append(flow_log)
 
-        return flow_logs
+        return flow_log_records
 
     def parse_flow_logs(self):
         flow_log_file: str = self.args.flow_log_file
         lookup_table_file: str = self.args.lookup_table_file
 
-        flow_logs: List[FlowLog] = self._read_flow_log_file(flow_log_file)
-        print(flow_logs)
+        flow_log_records: List[FlowLogRecord] = self._read_flow_log_file(flow_log_file)
+        print(flow_log_records)
         print(lookup_table_file)

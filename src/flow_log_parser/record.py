@@ -19,7 +19,7 @@ class LogStatus(str, Enum):
 
 
 @dataclass
-class FlowLog:
+class FlowLogRecord:
     """
     For reference: https://docs.aws.amazon.com/vpc/latest/userguide/flow-log-records.html#flow-logs-fields
     """
