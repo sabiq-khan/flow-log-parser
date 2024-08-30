@@ -117,13 +117,11 @@ class FlowLogParser:
 
         return lookup_table
 
-
-    # TODO: Fix tagging / iterating logic
     def _tag_records(self, flow_log_records: List[FlowLogRecord], lookup_table: LookupTable) -> Dict[str, List[FlowLogRecord]]:
         tagged_records: Dict[str, List[FlowLogRecord]] = {}
         for flow_log_record in flow_log_records:
-            is_match: bool = True
             for row in lookup_table.rows:
+                is_match: bool = True
                 for column in lookup_table.columns[:-1]:
                     if str(getattr(flow_log_record, column)) != row[column]:
                         is_match = False
@@ -141,10 +139,8 @@ class FlowLogParser:
         lookup_table_file: str = self.args.lookup_table_file
 
         flow_log_records: List[FlowLogRecord] = self._read_flow_log_file(flow_log_file)
-        print(flow_log_records)
-        print(lookup_table_file)
         lookup_table: LookupTable = self._read_lookup_table_file(lookup_table_file)
-        print(lookup_table)
 
         tagged_records: Dict[str, List[FlowLogRecord]] = self._tag_records(flow_log_records, lookup_table)
-        print(tagged_records)
+        for tag, records in tagged_records.items():
+            print(f"{tag}: {records}")
