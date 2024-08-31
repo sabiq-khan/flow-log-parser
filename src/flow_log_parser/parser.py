@@ -1,18 +1,24 @@
 import sys
 from dataclasses import dataclass
 from typing import Dict, List, ClassVar, Any
-from constants import HELP_MESSAGE
+from constants import HELP_MESSAGE, TAG_COUNT_FILE, COLUMN_COUNT_FILE
 from record import FlowLogRecord
 
 
 @dataclass
 class LookupTable:
+    """
+    Object representation of a CSV lookup table
+    """
     columns: List[str]
     rows: List[Dict[str, Any]]
 
 
 @dataclass
 class FlowLogParserArgs:
+    """
+    Represents arguments passed to FlowLogParser object
+    """
     flow_log_file: str
     lookup_table_file: str
 
@@ -22,6 +28,9 @@ class FlowLogParserArgs:
 class FlowLogParser:
     @staticmethod
     def read_args() -> FlowLogParserArgs:
+        """
+        Reads command line arguments into a FlowLogParserArgs object
+        """
         raw_args: List[str] = sys.argv[1:]
         args_read: Dict[str, str] = {}
 
@@ -55,6 +64,9 @@ class FlowLogParser:
         self.tagged_records: Dict[str, FlowLogRecord] = {}
 
     def _read_flow_log_file(self, flow_log_file: str) -> List[FlowLogRecord]:
+        """
+        Reads records from flow log file into a list of FlowLogRecord objects
+        """
         flow_log_records: List[FlowLogRecord] = []
 
         with open(file=flow_log_file, mode="r") as file:
@@ -94,6 +106,7 @@ class FlowLogParser:
     
     def _read_lookup_table_file(self, lookup_table_file: str) -> LookupTable:
         """
+        Reads lookup table file into a LookupTable object
         Greater control over CSV parsing than csv.DictReader
         """
         columns: List[str] = []
@@ -118,6 +131,9 @@ class FlowLogParser:
         return lookup_table
 
     def _tag_records(self, flow_log_records: List[FlowLogRecord], lookup_table: LookupTable) -> Dict[str, List[FlowLogRecord]]:
+        """
+        Groups flow log records based on which tag from lookup table they match
+        """
         tagged_records: Dict[str, List[FlowLogRecord]] = {}
         for flow_log_record in flow_log_records:
             for row in lookup_table.rows:
@@ -133,8 +149,46 @@ class FlowLogParser:
                         tagged_records[row["tag"]] = [flow_log_record]
 
         return tagged_records
+    
+    def _write_tag_count_to_csv(self, tagged_records: Dict[str, List[FlowLogRecord]]):
+        """
+        Writes counts of how many times records matching each tag occured in flow log file
+        Greater control over CSV output than csv.DictWriter
+        """
+        with open(file=TAG_COUNT_FILE, mode="w") as file:
+            file.write("Tag,Count\n")
+            for tag, records in tagged_records.items():
+                file.write("\n")
+                count: int = len(records)
+                file.write(f"{tag},{count}\n")
+
+    def _write_column_count_to_csv(self, lookup_table: LookupTable, tagged_records: Dict[str, List[FlowLogRecord]]):
+        """
+        Writes counts of how many times each column combo from lookup table occurred in flow log file
+        Greater control over CSV output than csv.DictWriter
+        """
+        with open(file=COLUMN_COUNT_FILE, mode="w") as file:
+            columns: List[str] = [column.title() for column in lookup_table.columns]
+            file.write(f"{','.join(columns)}\n")
+            for row in lookup_table.rows:
+                tag: str = row["tag"]
+                if tag not in tagged_records.keys():
+                    continue
+                count: int = len(tagged_records[tag])
+                values: List[str] = []
+                for value in row.values():
+                    values.append(value)
+                # Replacing the actual tag with its count
+                values.pop(-1)
+                values.append(str(count))
+                file.write("\n")
+                file.write(f"{','.join(values)}\n")
 
     def parse_flow_logs(self):
+        """
+        Parses a flow log file based on a lookup table file
+        Writes results to a `tag-counts.csv` and `column-counts.csv` file
+        """
         flow_log_file: str = self.args.flow_log_file
         lookup_table_file: str = self.args.lookup_table_file
 
@@ -142,5 +196,5 @@ class FlowLogParser:
         lookup_table: LookupTable = self._read_lookup_table_file(lookup_table_file)
 
         tagged_records: Dict[str, List[FlowLogRecord]] = self._tag_records(flow_log_records, lookup_table)
-        for tag, records in tagged_records.items():
-            print(f"{tag}: {records}")
+        self._write_tag_count_to_csv(tagged_records)
+        self._write_column_count_to_csv(lookup_table, tagged_records)
