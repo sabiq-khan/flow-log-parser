@@ -5,24 +5,15 @@ This program parses a file containing VPC flow logs based on a lookup table, tag
 This program just requires that Python 3.10+ is [installed](https://www.python.org/downloads/) on the system. No dependencies outside of the [Python standard library](https://docs.python.org/3.10/library/index.html) are used.
 
 ## Installation
-### Building from Source
-`git clone` this repo, then navigate into the `flow-log-parser/` project root directory
+### pip
+A distribution of this program has been uploaded to http://test.pypi.org at https://test.pypi.org/project/flow-log-parser/0.1.0/.
+
+It can be installed with `pip` as follows:
 ```
-$ git clone https://github.com/sabiq-khan/flow-log-parser.git
-$ cd flow-log-parser/
+$ pip install -i https://test.pypi.org/simple/ flow-log-parser==0.1.0
 ```
 
-Run the following command to build a distribution.
-```
-$ python3 setup.py sdist bdist_wheel
-```
-
-The built distribution tarball and wheel will be present under the `dist/` directory. To install the wheel with `pip`, run:
-```
-$ pip install dist/flow_log_parser-0.1.0-py3-none-any.whl 
-```
-
-After this, you can run the program just by typing `flow-log-parser` into the shell.
+No further build or configuration steps are required. Typing `flow-log-parser` into the shell will run the program.
 ```
 $ flow-log-parser
 
@@ -42,6 +33,49 @@ Options:
 Example:
     flow-log-parser --flow-log-file vpc-flow.log --lookup-table-file lookup.csv
 ```
+Feel free to skip to the `Usage` section.
+
+### Building distribution from source
+If you would like to build a distribution from source locally, follow these steps.
+
+1. `git clone` this repo, then navigate into the `flow-log-parser/` project root directory
+```
+$ git clone https://github.com/sabiq-khan/flow-log-parser.git
+$ cd flow-log-parser/
+```
+
+2. Run the following command to build a distribution.
+```
+$ python3 setup.py sdist bdist_wheel
+```
+
+The built distribution tarball and wheel will be present under the `dist/` directory. To install the wheel with `pip`, run:
+```
+$ pip install dist/flow_log_parser-0.1.0-py3-none-any.whl 
+```
+
+3. After this, you can run the program just by typing `flow-log-parser` into the shell.
+```
+$ flow-log-parser
+
+Usage: flow-log-parser [--flow-log-file FLOW_LOG_FILE] [--lookup-table-file LOOKUP_TABLE_FILE] [--help/-h]
+
+Parses a given VPC flow log file based on a given lookup table CSV file. 
+Writes parsed flow log output to a `tag-count.csv` and `columns-count.csv` file in the current working directory.
+The lookup table can use any combination of columns from the flow log file. Last column must always be `tag`.
+
+Options:
+    --flow-log-file       Path to file containing VPC flow logs.
+
+    --lookup-table-file   Path to CSV file containing lookup table.
+
+    --help/-h/[NO_ARGS]   Prints this help message
+
+Example:
+    flow-log-parser --flow-log-file vpc-flow.log --lookup-table-file lookup.csv
+```
+
+Feel free to move on to the `Usage` section.
 
 ## Usage
 If the program is run with no options, or with `--help` or `-h`, it prints a help message explaining its usage.
