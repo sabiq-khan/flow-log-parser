@@ -2,9 +2,78 @@
 This program parses a file containing VPC flow logs based on a lookup table, tags records based on the lookup table, and then writes counts of the number of records with each tag to CSV files.
 
 ## Requirements
-This program just requires that Python 3.10+ is [installed](https://www.python.org/downloads/) on the system. No dependencies outside of the [Python standard library](https://docs.python.org/3.10/library/index.html) are used.
+If installing with `pip` or building from source, Python 3.10+ must be [installed](https://www.python.org/downloads/) on the system. No dependencies outside of the [Python standard library](https://docs.python.org/3.10/library/index.html) are used.
+
+If you download one of the standalone executables from the [Releases](https://github.com/sabiq-khan/flow-log-parser/releases) page, you do not need to have Python installed on your system, and you can simply run the executable.
+
+See the `Installation` section for further details.
 
 ## Installation
+4 options for installing the program are covered in this section. You only need to pick one, and you can pick whichever is the most convenient.
+
+### GitHub releases
+This repo has a GitHub Actions pipeline that uses PyInstaller to build this program into a standalone executable. The executable contains a copy of the Python interpreter, so Python does not even have to be installed on the system to run the program. Simply download an executable for your OS from the [Releases](https://github.com/sabiq-khan/flow-log-parser/releases) page and run the program.
+
+After the executable is downloaded, you can move it from your `Downloads` directory to a directory in your `$PATH` to run it by name. You may have to run `chmod u+x` (or perform the equivalent action on your OS) to have permissions to execute the program.
+```
+$ ls ~/Downloads
+flow-log-parser
+
+$ mv ~/Downloads/flow-log-parser ~/bin
+
+$ chmod u+x ~/bin/flow-log-parser
+
+$ flow-log-parser
+
+Usage: flow-log-parser [--flow-log-file FLOW_LOG_FILE] [--lookup-table-file LOOKUP_TABLE_FILE] [--help/-h]
+
+Parses a given VPC flow log file based on a given lookup table CSV file. 
+Writes parsed flow log output to a `tag-count.csv` and `columns-count.csv` file in the current working directory.
+The lookup table can use any combination of columns from the flow log file. Last column must always be `tag`.
+
+Options:
+    --flow-log-file       Path to file containing VPC flow logs.
+
+    --lookup-table-file   Path to CSV file containing lookup table.
+
+    --help/-h/[NO_ARGS]   Prints this help message
+
+Example:
+    flow-log-parser --flow-log-file vpc-flow.log --lookup-table-file lookup.csv
+```
+
+Alternatively, you can use `curl` to directly download it to a directory of your choice.
+```
+$ curl -LO --output-dir ~/bin https://github.com/sabiq-khan/flow-log-parser/releases/download/v0.1.0-Linux/flow-log-parser
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100     9  100     9    0     0     19      0 --:--:-- --:--:-- --:--:--    19
+
+$ ls ~/bin
+flow-log-parser
+
+$ chmod u+x flow-log-parser
+
+$ flow-log-parser
+
+Usage: flow-log-parser [--flow-log-file FLOW_LOG_FILE] [--lookup-table-file LOOKUP_TABLE_FILE] [--help/-h]
+
+Parses a given VPC flow log file based on a given lookup table CSV file. 
+Writes parsed flow log output to a `tag-count.csv` and `columns-count.csv` file in the current working directory.
+The lookup table can use any combination of columns from the flow log file. Last column must always be `tag`.
+
+Options:
+    --flow-log-file       Path to file containing VPC flow logs.
+
+    --lookup-table-file   Path to CSV file containing lookup table.
+
+    --help/-h/[NO_ARGS]   Prints this help message
+
+Example:
+    flow-log-parser --flow-log-file vpc-flow.log --lookup-table-file lookup.csv
+```
+Feel free to skip to the `Usage` section.
+
 ### pip
 A distribution of this program has been uploaded to http://test.pypi.org at https://test.pypi.org/project/flow-log-parser/0.1.0/.
 
