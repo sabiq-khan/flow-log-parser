@@ -81,12 +81,18 @@ Feel free to skip to the `Usage` section.
 ### Building PyInstaller executable from source
 If you would like to build the program into PyInstaller executable from source, follow these steps.
 
-1. Install PyInstaller with `pip`.
+1. `git clone` this repo, then navigate into the `flow-log-parser/` project root directory
+```
+$ git clone https://github.com/sabiq-khan/flow-log-parser.git
+$ cd flow-log-parser/
+```
+
+2. Install PyInstaller with `pip`.
 ```
 $ pip install pyinstaller
 ```
 
-2. Run the following command to build the executable.
+3. Run the following command to build the executable.
 ```
 $ pyinstaller --name flow-log-parser --onefile src/flow_log_parser/__main__.py
 ```
