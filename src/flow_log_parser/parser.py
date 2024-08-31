@@ -17,7 +17,7 @@ class LookupTable:
 @dataclass
 class FlowLogParserArgs:
     """
-    Represents arguments passed to FlowLogParser object
+    Represents arguments passed to FlowLogParser
     """
     flow_log_file: str
     lookup_table_file: str
