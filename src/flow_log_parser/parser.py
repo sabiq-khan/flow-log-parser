@@ -169,6 +169,9 @@ class FlowLogParser:
         """
         with open(file=COLUMN_COUNT_FILE, mode="w") as file:
             columns: List[str] = [column.title() for column in lookup_table.columns]
+            # Replacing `Tag` column heading with `Count`
+            columns.pop(-1)
+            columns.append("Count")
             file.write(f"{','.join(columns)}\n")
             for row in lookup_table.rows:
                 tag: str = row["tag"]

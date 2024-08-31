@@ -1,6 +1,13 @@
 ## flow-log-parser
 This program parses a file containing VPC flow logs based on a lookup table, tags records based on the lookup table, and then writes counts of the number of records with each tag to CSV files.
 
+The program assumes that the flow logs in the file have the following format:
+```
+version account-id interface-id srcaddr dstaddr srcport dstport protocol packets bytes start end action log-status
+```
+
+The value of the version column itself can be 2, 3, or 4. All of the above columns must be present, no more, no fewer.
+
 ## Requirements
 If installing with `pip` or building from source, Python 3.10+ must be [installed](https://www.python.org/downloads/) on the system. No dependencies outside of the [Python standard library](https://docs.python.org/3.10/library/index.html) are used.
 
@@ -44,7 +51,7 @@ Example:
 
 Alternatively, you can use `curl` to directly download it to a directory of your choice.
 ```
-$ curl -LO --output-dir ~/bin https://github.com/sabiq-khan/flow-log-parser/releases/download/v0.1.0-Linux/flow-log-parser
+$ curl -LO --output-dir ~/bin https://github.com/sabiq-khan/flow-log-parser/releases/download/v0.1.1-Linux/flow-log-parser
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
 100     9  100     9    0     0     19      0 --:--:-- --:--:-- --:--:--    19
@@ -75,11 +82,11 @@ Example:
 Feel free to skip to the `Usage` section.
 
 ### pip
-A distribution of this program has been uploaded to http://test.pypi.org at https://test.pypi.org/project/flow-log-parser/0.1.0/.
+A distribution of this program has been uploaded to http://test.pypi.org at https://test.pypi.org/project/flow-log-parser/0.1.1/.
 
 It can be installed with `pip` as follows:
 ```
-$ pip install -i https://test.pypi.org/simple/ flow-log-parser==0.1.0
+$ pip install -i https://test.pypi.org/simple/ flow-log-parser==0.1.1
 ```
 
 No further build or configuration steps are required. Typing `flow-log-parser` into the shell will run the program.
@@ -121,7 +128,7 @@ $ python3 setup.py sdist bdist_wheel
 
 The built distribution tarball and wheel will be present under the `dist/` directory. To install the wheel with `pip`, run:
 ```
-$ pip install dist/flow_log_parser-0.1.0-py3-none-any.whl 
+$ pip install dist/flow_log_parser-0.1.1-py3-none-any.whl 
 ```
 
 3. After this, you can run the program just by typing `flow-log-parser` into the shell.
