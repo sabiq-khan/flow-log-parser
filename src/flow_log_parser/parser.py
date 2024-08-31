@@ -70,7 +70,7 @@ class FlowLogParser:
 
         with open(file=flow_log_file, mode="r") as file:
             for line in file:
-                stripped_line = line.strip()
+                stripped_line: str = line.strip()
                 if stripped_line == "":
                     continue
                 columns: List[str] = stripped_line.split(" ")
