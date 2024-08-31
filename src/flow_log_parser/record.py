@@ -1,6 +1,6 @@
 from enum import Enum
 from dataclasses import dataclass
-from flow_log_parser.constants import IANA_PROTOCOLS
+from flow_log_parser.iana import IANA_PROTOCOLS, IanaProtocol
 
 
 class Version(int, Enum):
@@ -23,6 +23,7 @@ class LogStatus(str, Enum):
 @dataclass
 class FlowLogRecord:
     """
+    Represents a VPC flow log record
     For reference, see: https://docs.aws.amazon.com/vpc/latest/userguide/flow-log-records.html#flow-logs-fields
     """
     version: Version
@@ -42,5 +43,5 @@ class FlowLogRecord:
 
 
     @property
-    def protocol(self):
+    def protocol(self) -> IanaProtocol:
         return IANA_PROTOCOLS[self.protocol_number]

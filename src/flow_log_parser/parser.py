@@ -8,7 +8,7 @@ from flow_log_parser.record import FlowLogRecord
 @dataclass
 class LookupTable:
     """
-    Object representation of a CSV lookup table
+    Represents a CSV lookup table
     """
     columns: List[str]
     rows: List[Dict[str, Any]]
@@ -142,14 +142,15 @@ class FlowLogParser:
                         is_match = False
             
                 if is_match:
+                    tag: str = row["tag"]
                     if row["tag"] in tagged_records.keys():
-                        tagged_records[row["tag"]].append(flow_log_record)
+                        tagged_records[tag].append(flow_log_record)
                     else:
-                        tagged_records[row["tag"]] = [flow_log_record]
+                        tagged_records[tag] = [flow_log_record]
 
         return tagged_records
     
-    def _write_tag_count_to_csv(self, tagged_records: Dict[str, List[FlowLogRecord]]):
+    def _write_tag_counts_to_csv(self, tagged_records: Dict[str, List[FlowLogRecord]]):
         """
         Writes counts of how many times records matching each tag occured in flow log file
         Greater control over CSV output than csv.DictWriter
@@ -161,7 +162,7 @@ class FlowLogParser:
                 count: int = len(records)
                 file.write(f"{tag},{count}\n")
 
-    def _write_column_count_to_csv(self, lookup_table: LookupTable, tagged_records: Dict[str, List[FlowLogRecord]]):
+    def _write_column_counts_to_csv(self, lookup_table: LookupTable, tagged_records: Dict[str, List[FlowLogRecord]]):
         """
         Writes counts of how many times each column combo from lookup table occurred in flow log file
         Greater control over CSV output than csv.DictWriter
@@ -195,5 +196,5 @@ class FlowLogParser:
         lookup_table: LookupTable = self._read_lookup_table_file(lookup_table_file)
 
         tagged_records: Dict[str, List[FlowLogRecord]] = self._tag_records(flow_log_records, lookup_table)
-        self._write_tag_count_to_csv(tagged_records)
-        self._write_column_count_to_csv(lookup_table, tagged_records)
+        self._write_tag_counts_to_csv(tagged_records)
+        self._write_column_counts_to_csv(lookup_table, tagged_records)
