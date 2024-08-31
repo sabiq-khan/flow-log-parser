@@ -1,8 +1,8 @@
 import sys
 from dataclasses import dataclass
 from typing import Dict, List, ClassVar, Any
-from constants import HELP_MESSAGE, TAG_COUNT_FILE, COLUMN_COUNT_FILE
-from record import FlowLogRecord
+from flow_log_parser.constants import HELP_MESSAGE, TAG_COUNT_FILE, COLUMN_COUNT_FILE
+from flow_log_parser.record import FlowLogRecord
 
 
 @dataclass

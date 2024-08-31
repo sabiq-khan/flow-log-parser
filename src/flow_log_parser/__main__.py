@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from parser import FlowLogParser, FlowLogParserArgs
+from flow_log_parser.parser import FlowLogParser, FlowLogParserArgs
 
 
 def main():

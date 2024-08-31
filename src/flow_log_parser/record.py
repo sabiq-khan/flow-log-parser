@@ -1,6 +1,6 @@
 from enum import Enum
 from dataclasses import dataclass
-from constants import IANA_PROTOCOLS
+from flow_log_parser.constants import IANA_PROTOCOLS
 
 
 class Version(int, Enum):

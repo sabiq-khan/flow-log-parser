@@ -8,5 +8,9 @@ lib64*
 include/
 pyvenv.cfg
 
+dist/
+build/
+*.egg-info
+
 *.log
 *.csv

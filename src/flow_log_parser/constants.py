@@ -3,19 +3,21 @@ from typing import Literal, Tuple
 
 HELP_MESSAGE: str = \
 """
-Usage: ./main.py [--flow-log-file FLOW_LOG_FILE] [--lookup-table-file LOOKUP_TABLE_FILE] [--help/-h]
+Usage: flow-log-parser [--flow-log-file FLOW_LOG_FILE] [--lookup-table-file LOOKUP_TABLE_FILE] [--help/-h]
 
 Parses a given VPC flow log file based on a given lookup table CSV file. 
 Writes parsed flow log output to a `tag-count.csv` and `columns-count.csv` file in the current working directory.
 The lookup table can use any combination of columns from the flow log file. Last column must always be `tag`.
 
 Options:
-	--flow_log_file       Path to file containing VPC flow logs.
+    --flow-log-file       Path to file containing VPC flow logs.
 
-	--lookup_table_file   Path to CSV file containing lookup table.
+    --lookup-table-file   Path to CSV file containing lookup table.
+
+    --help/-h/[NO_ARGS]   Prints this help message
 
 Example:
-    ./main.py --flow_log_file vpc-flow.log --lookup_table_file lookup.csv
+    flow-log-parser --flow-log-file vpc-flow.log --lookup-table-file lookup.csv
 """
 
 
