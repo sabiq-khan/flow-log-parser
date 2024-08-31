@@ -143,7 +143,7 @@ class FlowLogParser:
             
                 if is_match:
                     tag: str = row["tag"]
-                    if row["tag"] in tagged_records.keys():
+                    if tag in tagged_records.keys():
                         tagged_records[tag].append(flow_log_record)
                     else:
                         tagged_records[tag] = [flow_log_record]
