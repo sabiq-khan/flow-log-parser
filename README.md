@@ -33,6 +33,7 @@ Options:
 Example:
     flow-log-parser --flow-log-file vpc-flow.log --lookup-table-file lookup.csv
 ```
+
 Feel free to skip to the `Usage` section.
 
 ### Building distribution from source
@@ -56,6 +57,44 @@ $ pip install dist/flow_log_parser-0.1.0-py3-none-any.whl
 
 3. After this, you can run the program just by typing `flow-log-parser` into the shell.
 ```
+$ flow-log-parser
+
+Usage: flow-log-parser [--flow-log-file FLOW_LOG_FILE] [--lookup-table-file LOOKUP_TABLE_FILE] [--help/-h]
+
+Parses a given VPC flow log file based on a given lookup table CSV file. 
+Writes parsed flow log output to a `tag-count.csv` and `columns-count.csv` file in the current working directory.
+The lookup table can use any combination of columns from the flow log file. Last column must always be `tag`.
+
+Options:
+    --flow-log-file       Path to file containing VPC flow logs.
+
+    --lookup-table-file   Path to CSV file containing lookup table.
+
+    --help/-h/[NO_ARGS]   Prints this help message
+
+Example:
+    flow-log-parser --flow-log-file vpc-flow.log --lookup-table-file lookup.csv
+```
+
+Feel free to skip to the `Usage` section.
+
+### Building PyInstaller executable from source
+If you would like to build the program into PyInstaller executable from source, follow these steps.
+
+1. Install PyInstaller with `pip`.
+```
+$ pip install pyinstaller
+```
+
+2. Run the following command to build the executable.
+```
+$ pyinstaller --name flow-log-parser --onefile src/flow_log_parser/__main__.py
+```
+
+The built executable will be present under the `dist/` directory. It can be run by simply invoking `dist/flow-log-parser`. Alternatively, you can move it to a directory in your `$PATH` and run it by name.
+```
+$ mv dist/flow-log-parser ~/bin
+
 $ flow-log-parser
 
 Usage: flow-log-parser [--flow-log-file FLOW_LOG_FILE] [--lookup-table-file LOOKUP_TABLE_FILE] [--help/-h]
