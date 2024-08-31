@@ -61,7 +61,6 @@ class FlowLogParser:
 
     def __init__(self, args: FlowLogParserArgs):
         self.args: FlowLogParserArgs = args
-        self.tagged_records: Dict[str, FlowLogRecord] = {}
 
     def _read_flow_log_file(self, flow_log_file: str) -> List[FlowLogRecord]:
         """
