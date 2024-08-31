@@ -1,0 +1,44 @@
+name: Build and Release Executable (Multi-OS)
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-release:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install PyInstaller
+        run: pip install pyinstaller
+
+      - name: Build Executable
+        run: |
+          pyinstaller --name flow-log-parser --onefile src/flow_log_parser/__main__.py
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        with:
+          tag_name: v0.1.0-${{ runner.os }}
+          release_name: flow-log-parser_v0.1.0 (${{ runner.os }})
+          body: |
+            This release builds a ${{ runner.os }} executable for flow-log-parser (v0.1.0).
+            You can download it from the Assets section below.
+          draft: false  # Set to true to create a draft release
+
+      - name: Upload Executable as Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        with:
+          asset_path: dist/flow-log-parser${{ runner.os == 'Windows' && '.exe' || '' }}
+          asset_name: flow-log-parser${{ runner.os == 'Windows' && '.exe' || '' }}
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_content_type: application/zip
