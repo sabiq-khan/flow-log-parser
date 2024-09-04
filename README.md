@@ -320,3 +320,13 @@ Dstport,Protocol,Count
 
 143,tcp,3
 ```
+
+## Testing
+The unit tests under the `test` directory can be run from the shell with the following command:
+```
+PYTHONPATH=src python3 -m unittest discover -s test -p "*.py" -v
+```
+
+The command must be run from the root directory of the project, i.e. `flow-log-parser`, to succeed.
+
+There is also a `.vscode/settings.json` file that defines a configuration for running these tests in VS Code. Simply navigate to the [Testing](https://code.visualstudio.com/docs/editor/testing) tab in VS Code and click the play button to run the tests.
