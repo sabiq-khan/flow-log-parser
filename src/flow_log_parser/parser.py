@@ -1,5 +1,5 @@
 import sys
-from dataclasses import dataclass
+from dataclasses import dataclass, fields
 from typing import Dict, List, ClassVar, Any
 from flow_log_parser.constants import HELP_MESSAGE, TAG_COUNT_FILE, COLUMN_COUNT_FILE
 from flow_log_parser.record import FlowLogRecord
@@ -13,6 +13,21 @@ class LookupTable:
     columns: List[str]
     rows: List[Dict[str, Any]]
 
+    def __post_init__(self):
+        if not isinstance(self.columns, List):
+            raise TypeError(f"Invalid lookup table columns: {self.columns}. Expected 'List'.")
+        
+        for column in self.columns:
+            if not isinstance(column, str):
+                raise TypeError(f"'{column}' is not a valid lookup table column. Expected string.")
+        
+        if not isinstance(self.rows, List):
+            raise TypeError(f"Expected a list of lookup table rows, received: {self.columns}.")
+
+        for row in self.rows:
+            if not isinstance(row, Dict):
+                raise TypeError(f"'{column}' is not a valid lookup table row. Expected 'Dict[str, Any]'.")
+
 
 @dataclass
 class FlowLogParserArgs:
@@ -23,6 +38,12 @@ class FlowLogParserArgs:
     lookup_table_file: str
 
     argc: ClassVar[int] = 2
+
+    def __post_init__(self):
+        for field in fields(self):
+            field_value: Any = getattr(self, field.name)
+            if not isinstance(field_value, str):
+                raise TypeError(f"Invalid argument: {field_value}. Expected string.")
 
 
 class FlowLogParser:
