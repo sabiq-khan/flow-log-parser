@@ -32,26 +32,42 @@ $ chmod u+x ~/bin/flow-log-parser
 
 $ flow-log-parser
 
-Usage: flow-log-parser [--flow-log-file FLOW_LOG_FILE] [--lookup-table-file LOOKUP_TABLE_FILE] [--help/-h]
+Usage: flow-log-parser [
+                        --flow-log-file FLOW_LOG_FILE \
+                        --lookup-table-file LOOKUP_TABLE_FILE \
+                        --tag-counts-output-file TAG_COUNTS_OUTPUT_FILE \
+                        --column-counts-output-file COLUMN_COUNTS_OUTPUT_FILE
+                        ]  
+                        [--help/-h]
 
-Parses a given VPC flow log file based on a given lookup table CSV file. 
-Writes parsed flow log output to a `tag-count.csv` and `columns-count.csv` file in the current working directory.
-The lookup table can use any combination of columns from the flow log file. Last column must always be `tag`.
+- Parses a given VPC flow log file based on a given lookup table CSV file.
+- The lookup table can use any combination of columns from the flow log file.
+- Last column must always be `tag`.
+- The counts of how many records fit each tag are written to the specified tag counts output file in the current working directory.
+- The counts of how many times a certain column combination occurred are written to the specified column counts output file in the current working directory.
 
 Options:
-    --flow-log-file       Path to file containing VPC flow logs.
+    --flow-log-file                 Path to file containing VPC flow logs.
 
-    --lookup-table-file   Path to CSV file containing lookup table.
+    --lookup-table-file             Path to CSV file containing lookup table.
 
-    --help/-h/[NO_ARGS]   Prints this help message
+    --tag-counts-output-file        File name for tag counts output.
+
+    --column-counts-output-file     File name for column counts output.
+
+    --help/-h/[NO_ARGS]             Prints this help message
 
 Example:
-    flow-log-parser --flow-log-file vpc-flow.log --lookup-table-file lookup.csv
+    flow-log-parser \
+    --flow-log-file vpc-flow.log \
+    --lookup-table-file lookup.csv \
+    --tag-counts-output-file tag-counts.csv \
+    --column-counts-output-file column-counts.csv
 ```
 
 Alternatively, you can use `curl` to directly download it to a directory of your choice.
 ```
-$ curl -LO --output-dir ~/bin https://github.com/sabiq-khan/flow-log-parser/releases/download/v0.1.7-Linux/flow-log-parser
+$ curl -LO --output-dir ~/bin https://github.com/sabiq-khan/flow-log-parser/releases/download/v0.2.0-Linux/flow-log-parser
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
 100     9  100     9    0     0     19      0 --:--:-- --:--:-- --:--:--    19
@@ -63,51 +79,83 @@ $ chmod u+x flow-log-parser
 
 $ flow-log-parser
 
-Usage: flow-log-parser [--flow-log-file FLOW_LOG_FILE] [--lookup-table-file LOOKUP_TABLE_FILE] [--help/-h]
+Usage: flow-log-parser [
+                        --flow-log-file FLOW_LOG_FILE \
+                        --lookup-table-file LOOKUP_TABLE_FILE \
+                        --tag-counts-output-file TAG_COUNTS_OUTPUT_FILE \
+                        --column-counts-output-file COLUMN_COUNTS_OUTPUT_FILE
+                        ]  
+                        [--help/-h]
 
-Parses a given VPC flow log file based on a given lookup table CSV file. 
-Writes parsed flow log output to a `tag-count.csv` and `columns-count.csv` file in the current working directory.
-The lookup table can use any combination of columns from the flow log file. Last column must always be `tag`.
+- Parses a given VPC flow log file based on a given lookup table CSV file.
+- The lookup table can use any combination of columns from the flow log file.
+- Last column must always be `tag`.
+- The counts of how many records fit each tag are written to the specified tag counts output file in the current working directory.
+- The counts of how many times a certain column combination occurred are written to the specified column counts output file in the current working directory.
 
 Options:
-    --flow-log-file       Path to file containing VPC flow logs.
+    --flow-log-file                 Path to file containing VPC flow logs.
 
-    --lookup-table-file   Path to CSV file containing lookup table.
+    --lookup-table-file             Path to CSV file containing lookup table.
 
-    --help/-h/[NO_ARGS]   Prints this help message
+    --tag-counts-output-file        File name for tag counts output.
+
+    --column-counts-output-file     File name for column counts output.
+
+    --help/-h/[NO_ARGS]             Prints this help message
 
 Example:
-    flow-log-parser --flow-log-file vpc-flow.log --lookup-table-file lookup.csv
+    flow-log-parser \
+    --flow-log-file vpc-flow.log \
+    --lookup-table-file lookup.csv \
+    --tag-counts-output-file tag-counts.csv \
+    --column-counts-output-file column-counts.csv
 ```
 Feel free to skip to the `Usage` section.
 
 ### pip
-A distribution of this program has been uploaded to http://test.pypi.org at https://test.pypi.org/project/flow-log-parser/0.1.7/.
+A distribution of this program has been uploaded to http://test.pypi.org at https://test.pypi.org/project/flow-log-parser/0.2.0/.
 
 It can be installed with `pip` as follows:
 ```
-$ pip install -i https://test.pypi.org/simple/ flow-log-parser==0.1.7
+$ pip install -i https://test.pypi.org/simple/ flow-log-parser==0.2.0
 ```
 
 No further build or configuration steps are required. Typing `flow-log-parser` into the shell will run the program.
 ```
 $ flow-log-parser
 
-Usage: flow-log-parser [--flow-log-file FLOW_LOG_FILE] [--lookup-table-file LOOKUP_TABLE_FILE] [--help/-h]
+Usage: flow-log-parser [
+                        --flow-log-file FLOW_LOG_FILE \
+                        --lookup-table-file LOOKUP_TABLE_FILE \
+                        --tag-counts-output-file TAG_COUNTS_OUTPUT_FILE \
+                        --column-counts-output-file COLUMN_COUNTS_OUTPUT_FILE
+                        ]  
+                        [--help/-h]
 
-Parses a given VPC flow log file based on a given lookup table CSV file. 
-Writes parsed flow log output to a `tag-count.csv` and `columns-count.csv` file in the current working directory.
-The lookup table can use any combination of columns from the flow log file. Last column must always be `tag`.
+- Parses a given VPC flow log file based on a given lookup table CSV file.
+- The lookup table can use any combination of columns from the flow log file.
+- Last column must always be `tag`.
+- The counts of how many records fit each tag are written to the specified tag counts output file in the current working directory.
+- The counts of how many times a certain column combination occurred are written to the specified column counts output file in the current working directory.
 
 Options:
-    --flow-log-file       Path to file containing VPC flow logs.
+    --flow-log-file                 Path to file containing VPC flow logs.
 
-    --lookup-table-file   Path to CSV file containing lookup table.
+    --lookup-table-file             Path to CSV file containing lookup table.
 
-    --help/-h/[NO_ARGS]   Prints this help message
+    --tag-counts-output-file        File name for tag counts output.
+
+    --column-counts-output-file     File name for column counts output.
+
+    --help/-h/[NO_ARGS]             Prints this help message
 
 Example:
-    flow-log-parser --flow-log-file vpc-flow.log --lookup-table-file lookup.csv
+    flow-log-parser \
+    --flow-log-file vpc-flow.log \
+    --lookup-table-file lookup.csv \
+    --tag-counts-output-file tag-counts.csv \
+    --column-counts-output-file column-counts.csv
 ```
 
 Feel free to skip to the `Usage` section.
@@ -128,28 +176,44 @@ $ python3 setup.py sdist bdist_wheel
 
 The built distribution tarball and wheel will be present under the `dist/` directory. To install the wheel with `pip`, run:
 ```
-$ pip install dist/flow_log_parser-0.1.7-py3-none-any.whl 
+$ pip install dist/flow_log_parser-0.2.0-py3-none-any.whl 
 ```
 
 3. After this, you can run the program just by typing `flow-log-parser` into the shell.
 ```
 $ flow-log-parser
 
-Usage: flow-log-parser [--flow-log-file FLOW_LOG_FILE] [--lookup-table-file LOOKUP_TABLE_FILE] [--help/-h]
+Usage: flow-log-parser [
+                        --flow-log-file FLOW_LOG_FILE \
+                        --lookup-table-file LOOKUP_TABLE_FILE \
+                        --tag-counts-output-file TAG_COUNTS_OUTPUT_FILE \
+                        --column-counts-output-file COLUMN_COUNTS_OUTPUT_FILE
+                        ]  
+                        [--help/-h]
 
-Parses a given VPC flow log file based on a given lookup table CSV file. 
-Writes parsed flow log output to a `tag-count.csv` and `columns-count.csv` file in the current working directory.
-The lookup table can use any combination of columns from the flow log file. Last column must always be `tag`.
+- Parses a given VPC flow log file based on a given lookup table CSV file.
+- The lookup table can use any combination of columns from the flow log file.
+- Last column must always be `tag`.
+- The counts of how many records fit each tag are written to the specified tag counts output file in the current working directory.
+- The counts of how many times a certain column combination occurred are written to the specified column counts output file in the current working directory.
 
 Options:
-    --flow-log-file       Path to file containing VPC flow logs.
+    --flow-log-file                 Path to file containing VPC flow logs.
 
-    --lookup-table-file   Path to CSV file containing lookup table.
+    --lookup-table-file             Path to CSV file containing lookup table.
 
-    --help/-h/[NO_ARGS]   Prints this help message
+    --tag-counts-output-file        File name for tag counts output.
+
+    --column-counts-output-file     File name for column counts output.
+
+    --help/-h/[NO_ARGS]             Prints this help message
 
 Example:
-    flow-log-parser --flow-log-file vpc-flow.log --lookup-table-file lookup.csv
+    flow-log-parser \
+    --flow-log-file vpc-flow.log \
+    --lookup-table-file lookup.csv \
+    --tag-counts-output-file tag-counts.csv \
+    --column-counts-output-file column-counts.csv
 ```
 
 Feel free to skip to the `Usage` section.
@@ -179,21 +243,37 @@ $ mv dist/flow-log-parser ~/bin
 
 $ flow-log-parser
 
-Usage: flow-log-parser [--flow-log-file FLOW_LOG_FILE] [--lookup-table-file LOOKUP_TABLE_FILE] [--help/-h]
+Usage: flow-log-parser [
+                        --flow-log-file FLOW_LOG_FILE \
+                        --lookup-table-file LOOKUP_TABLE_FILE \
+                        --tag-counts-output-file TAG_COUNTS_OUTPUT_FILE \
+                        --column-counts-output-file COLUMN_COUNTS_OUTPUT_FILE
+                        ]  
+                        [--help/-h]
 
-Parses a given VPC flow log file based on a given lookup table CSV file. 
-Writes parsed flow log output to a `tag-count.csv` and `columns-count.csv` file in the current working directory.
-The lookup table can use any combination of columns from the flow log file. Last column must always be `tag`.
+- Parses a given VPC flow log file based on a given lookup table CSV file.
+- The lookup table can use any combination of columns from the flow log file.
+- Last column must always be `tag`.
+- The counts of how many records fit each tag are written to the specified tag counts output file in the current working directory.
+- The counts of how many times a certain column combination occurred are written to the specified column counts output file in the current working directory.
 
 Options:
-    --flow-log-file       Path to file containing VPC flow logs.
+    --flow-log-file                 Path to file containing VPC flow logs.
 
-    --lookup-table-file   Path to CSV file containing lookup table.
+    --lookup-table-file             Path to CSV file containing lookup table.
 
-    --help/-h/[NO_ARGS]   Prints this help message
+    --tag-counts-output-file        File name for tag counts output.
+
+    --column-counts-output-file     File name for column counts output.
+
+    --help/-h/[NO_ARGS]             Prints this help message
 
 Example:
-    flow-log-parser --flow-log-file vpc-flow.log --lookup-table-file lookup.csv
+    flow-log-parser \
+    --flow-log-file vpc-flow.log \
+    --lookup-table-file lookup.csv \
+    --tag-counts-output-file tag-counts.csv \
+    --column-counts-output-file column-counts.csv
 ```
 
 Feel free to move on to the `Usage` section.
@@ -203,29 +283,45 @@ If the program is run with no options, or with `--help` or `-h`, it prints a hel
 ```
 $ flow-log-parser
 
-Usage: flow-log-parser [--flow-log-file FLOW_LOG_FILE] [--lookup-table-file LOOKUP_TABLE_FILE] [--help/-h]
+Usage: flow-log-parser [
+                        --flow-log-file FLOW_LOG_FILE \
+                        --lookup-table-file LOOKUP_TABLE_FILE \
+                        --tag-counts-output-file TAG_COUNTS_OUTPUT_FILE \
+                        --column-counts-output-file COLUMN_COUNTS_OUTPUT_FILE
+                        ]  
+                        [--help/-h]
 
-Parses a given VPC flow log file based on a given lookup table CSV file. 
-Writes parsed flow log output to a `tag-count.csv` and `columns-count.csv` file in the current working directory.
-The lookup table can use any combination of columns from the flow log file. Last column must always be `tag`.
+- Parses a given VPC flow log file based on a given lookup table CSV file.
+- The lookup table can use any combination of columns from the flow log file.
+- Last column must always be `tag`.
+- The counts of how many records fit each tag are written to the specified tag counts output file in the current working directory.
+- The counts of how many times a certain column combination occurred are written to the specified column counts output file in the current working directory.
 
 Options:
-    --flow-log-file       Path to file containing VPC flow logs.
+    --flow-log-file                 Path to file containing VPC flow logs.
 
-    --lookup-table-file   Path to CSV file containing lookup table.
+    --lookup-table-file             Path to CSV file containing lookup table.
 
-    --help/-h/[NO_ARGS]   Prints this help message
+    --tag-counts-output-file        File name for tag counts output.
+
+    --column-counts-output-file     File name for column counts output.
+
+    --help/-h/[NO_ARGS]             Prints this help message
 
 Example:
-    flow-log-parser --flow-log-file vpc-flow.log --lookup-table-file lookup.csv
+    flow-log-parser \
+    --flow-log-file vpc-flow.log \
+    --lookup-table-file lookup.csv \
+    --tag-counts-output-file tag-counts.csv \
+    --column-counts-output-file column-counts.csv
 ```
 
-The program should be run with the `--flow-log-file` and `--lookup-table-file` options.
+The program should be run with the `--flow-log-file`, `--lookup-table-file`, `--tag-counts-output-file`, and `--column-counts-output-file` options.
 
 `--flow-log-file` should be the path to a file containing VPC flow logs following the standard Parquet-based [VPC flow log format](https://docs.aws.amazon.com/vpc/latest/userguide/flow-log-records.html#flow-logs-fields).
 `--lookup-table-file` should be the path to a file containing a lookup table in CSV format. The columns in this lookup table can be any combination of columns present in the VPC flow log file. However, always ensure that the last column is `tag` and its values are the tags you wish to records with specific combinations of values.
 
-The program outputs 2 files in its current working directory. One is a `tag-counts.csv` file containing the number of records from the VPC flow log file were tagged with a specific tag. The other is a `column-counts.csv` file showing how many times a particular combination of columns was present in the VPC flow log file; these counts should match the ones in `tag-counts.csv`. 
+The program tags records from the VPC flow log with the tags from the lookup table, counts how many records there are with each tag, and then writes those counts to the given tag counts output file. It also counts how many times a particular combination of columns from the lookup table was present in the VPC flow log file, and then writes those counts to the given column counts output file. The counts in the column counts output file should match those in the tag counts output file since both are based on the same lookup table.
 
 ## Example
 Suppose I create a VPC flow log file called `vpc-flow.log` in my current working directory as follows.
@@ -292,7 +388,13 @@ EOF
 
 When I run `flow-log-parser` with the options pointing to these files, I get a `tag-counts.csv` and `column-counts.csv` file in my current working directory as follows.
 ```
-$ flow-log-parser --flow-log-file vpc-flow.log --lookup-table-file lookup.csv 
+$ flow-log-parser --flow-log-file vpc-flow.log --lookup-table-file lookup.csv --tag-counts-output-file tag-counts.csv --column-counts-output-file column-counts.csv
+[2024-09-07 11:20:23,171][flow_log_parser][flow_log_parser.py:223][parse_flow_logs][INFO]: Reading flow log records from 'vpc-flow.log'...
+[2024-09-07 11:20:23,172][flow_log_parser][flow_log_parser.py:226][parse_flow_logs][INFO]: Reading CSV lookup table from 'lookup.csv'...
+[2024-09-07 11:20:23,172][flow_log_parser][flow_log_parser.py:229][parse_flow_logs][INFO]: Tagging flow log records by lookup table...
+[2024-09-07 11:20:23,172][flow_log_parser][flow_log_parser.py:232][parse_flow_logs][INFO]: Writing tag counts to 'tag-counts.csv'...
+[2024-09-07 11:20:23,172][flow_log_parser][flow_log_parser.py:235][parse_flow_logs][INFO]: Writing column combination counts to 'column-counts.csv'...
+[2024-09-07 11:20:23,172][flow_log_parser][flow_log_parser.py:238][parse_flow_logs][INFO]: Complete!
 
 $ cat tag-counts.csv 
 Tag,Count
@@ -322,11 +424,59 @@ Dstport,Protocol,Count
 ```
 
 ## Testing
-The unit tests under the `test` directory can be run from the shell with the following command:
+Each of the unit tests under the `test` directory can be run individually from the shell. For example:
 ```
-PYTHONPATH=src python3 -m unittest discover -s test -p "*.py" -v
+$ PYTHONPATH=src ./test/test_logger_factory.py 
+..
+----------------------------------------------------------------------
+Ran 2 tests in 0.000s
+
+OK
 ```
 
-The command must be run from the root directory of the project, i.e. `flow-log-parser`, to succeed.
+The unit tests under the `test` directory can be run from the shell with the following command:
+```
+$ PYTHONPATH=src python3 -m unittest discover -s test -p "*.py" -v
+test_column_counts_output_file_property_readonly (test_flow_log_parser.TestFlowLogParser) ... ok
+test_flow_log_file_property_readonly (test_flow_log_parser.TestFlowLogParser) ... ok
+test_init_invalid_args (test_flow_log_parser.TestFlowLogParser) ... ok
+test_init_valid_args (test_flow_log_parser.TestFlowLogParser) ... ok
+test_lookup_table_file_property_readonly (test_flow_log_parser.TestFlowLogParser) ... ok
+test_read_args_invalid_number (test_flow_log_parser.TestFlowLogParser) ... ok
+test_read_args_invalid_values (test_flow_log_parser.TestFlowLogParser) ... ok
+test_read_args_valid (test_flow_log_parser.TestFlowLogParser) ... ok
+test_tag_counts_output_file_property_readonly (test_flow_log_parser.TestFlowLogParser) ... ok
+test_argc (test_flow_log_parser.TestFlowLogParserArgs) ... ok
+test_invalid_column_counts_output_file (test_flow_log_parser.TestFlowLogParserArgs) ... ok
+test_invalid_flow_log_file (test_flow_log_parser.TestFlowLogParserArgs) ... ok
+test_invalid_lookup_table_file (test_flow_log_parser.TestFlowLogParserArgs) ... ok
+test_invalid_tag_counts_output_file (test_flow_log_parser.TestFlowLogParserArgs) ... ok
+test_valid_values (test_flow_log_parser.TestFlowLogParserArgs) ... ok
+test_invalid_values (test_flow_log_record.TestAction) ... ok
+test_valid_values (test_flow_log_record.TestAction) ... ok
+test_invalid_action (test_flow_log_record.TestFlowLogRecord) ... ok
+test_invalid_iana_protocol (test_flow_log_record.TestFlowLogRecord) ... ok
+test_invalid_log_status (test_flow_log_record.TestFlowLogRecord) ... ok
+test_invalid_version (test_flow_log_record.TestFlowLogRecord) ... ok
+test_valid_values (test_flow_log_record.TestFlowLogRecord) ... ok
+test_invalid_values (test_flow_log_record.TestLogStatus) ... ok
+test_valid_values (test_flow_log_record.TestLogStatus) ... ok
+test_invalid_values (test_flow_log_record.TestVersion) ... ok
+test_valid_values (test_flow_log_record.TestVersion) ... ok
+test_invalid_protocol (test_iana.TestIanaProtocols) ... ok
+test_valid_protocols (test_iana.TestIanaProtocols) ... ok
+test_get_logger_already_exists (test_logger_factory.TestLoggerFactory) ... ok
+test_get_logger_new_logger (test_logger_factory.TestLoggerFactory) ... ok
+test_invalid_columns (test_lookup_table.TestLookupTable) ... ok
+test_invalid_rows (test_lookup_table.TestLookupTable) ... ok
+test_valid_values (test_lookup_table.TestLookupTable) ... ok
+
+----------------------------------------------------------------------
+Ran 33 tests in 0.003s
+
+OK
+```
+
+The command must be run from the root directory of the project, i.e. `flow-log-parser`, in order to succeed.
 
 There is also a `.vscode/settings.json` file that defines a configuration for running these tests in VS Code. Simply navigate to the [Testing](https://code.visualstudio.com/docs/editor/testing) tab in VS Code and click the play button to run the tests.

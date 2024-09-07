@@ -2,33 +2,10 @@ from logging import Logger
 import sys
 from dataclasses import dataclass, fields
 from typing import Dict, List, ClassVar, Any
-from flow_log_parser.constants import HELP_MESSAGE, TAG_COUNT_FILE, COLUMN_COUNT_FILE
+from flow_log_parser.constants import HELP_MESSAGE
 from flow_log_parser.logger_factory import LoggerFactory
-from flow_log_parser.record import FlowLogRecord
-
-
-@dataclass
-class LookupTable:
-    """
-    Represents a CSV lookup table
-    """
-    columns: List[str]
-    rows: List[Dict[str, Any]]
-
-    def __post_init__(self):
-        if not isinstance(self.columns, List):
-            raise TypeError(f"Invalid lookup table columns: {self.columns}. Expected 'List'.")
-        
-        for column in self.columns:
-            if not isinstance(column, str):
-                raise TypeError(f"'{column}' is not a valid lookup table column. Expected string.")
-        
-        if not isinstance(self.rows, List):
-            raise TypeError(f"Expected a list of lookup table rows, received: {self.columns}.")
-
-        for row in self.rows:
-            if not isinstance(row, Dict):
-                raise TypeError(f"'{column}' is not a valid lookup table row. Expected 'Dict[str, Any]'.")
+from flow_log_parser.flow_log_record import FlowLogRecord
+from flow_log_parser.lookup_table import LookupTable
 
 
 @dataclass
@@ -38,8 +15,11 @@ class FlowLogParserArgs:
     """
     flow_log_file: str
     lookup_table_file: str
+    tag_counts_output_file: str
+    column_counts_output_file: str
 
-    argc: ClassVar[int] = 2
+
+    argc: ClassVar[int] = 4
 
     def __post_init__(self):
         for field in fields(self):
@@ -91,6 +71,8 @@ class FlowLogParser:
         self.logger: Logger = LoggerFactory.get_logger("flow_log_parser")
         self._flow_log_file: str = args.flow_log_file
         self._lookup_table_file: str = args.lookup_table_file
+        self._tag_counts_output_file: str = args.tag_counts_output_file
+        self._column_counts_output_file: str = args.column_counts_output_file
 
     @property
     def flow_log_file(self) -> str:
@@ -99,6 +81,14 @@ class FlowLogParser:
     @property
     def lookup_table_file(self) -> str:
         return self._lookup_table_file
+    
+    @property
+    def tag_counts_output_file(self) -> str:
+        return self._tag_counts_output_file
+
+    @property
+    def column_counts_output_file(self) -> str:
+        return self._column_counts_output_file
 
     def _read_flow_log_file(self, flow_log_file: str) -> List[FlowLogRecord]:
         """
@@ -188,24 +178,24 @@ class FlowLogParser:
 
         return tagged_records
     
-    def _write_tag_counts_to_csv(self, tagged_records: Dict[str, List[FlowLogRecord]]):
+    def _write_tag_counts_to_csv(self, tagged_records: Dict[str, List[FlowLogRecord]], tag_count_output_file: str):
         """
         Writes counts of how many times records matching each tag occured in flow log file
         Greater control over CSV output than csv.DictWriter
         """
-        with open(file=TAG_COUNT_FILE, mode="w") as file:
+        with open(file=tag_count_output_file, mode="w") as file:
             file.write("Tag,Count\n")
             for tag, records in tagged_records.items():
                 file.write("\n")
                 count: int = len(records)
                 file.write(f"{tag},{count}\n")
 
-    def _write_column_counts_to_csv(self, lookup_table: LookupTable, tagged_records: Dict[str, List[FlowLogRecord]]):
+    def _write_column_counts_to_csv(self, lookup_table: LookupTable, tagged_records: Dict[str, List[FlowLogRecord]], column_count_output_file: str):
         """
         Writes counts of how many times each column combo from lookup table occurred in flow log file
         Greater control over CSV output than csv.DictWriter
         """
-        with open(file=COLUMN_COUNT_FILE, mode="w") as file:
+        with open(file=column_count_output_file, mode="w") as file:
             columns: List[str] = [column.title() for column in lookup_table.columns]
             # Replacing `Tag` column heading with `Count`
             columns.pop(-1)
@@ -239,10 +229,10 @@ class FlowLogParser:
         self.logger.info("Tagging flow log records by lookup table...")
         tagged_records: Dict[str, List[FlowLogRecord]] = self._tag_records(flow_log_records, lookup_table)
 
-        self.logger.info(f"Writing tag counts to '{TAG_COUNT_FILE}'...")
-        self._write_tag_counts_to_csv(tagged_records)
+        self.logger.info(f"Writing tag counts to '{self.tag_counts_output_file}'...")
+        self._write_tag_counts_to_csv(tagged_records, self.tag_counts_output_file)
 
-        self.logger.info(f"Writing column combination counts to '{COLUMN_COUNT_FILE}'...")
-        self._write_column_counts_to_csv(lookup_table, tagged_records)
+        self.logger.info(f"Writing column combination counts to '{self.column_counts_output_file}'...")
+        self._write_column_counts_to_csv(lookup_table, tagged_records, self.column_counts_output_file)
 
         self.logger.info("Complete!")

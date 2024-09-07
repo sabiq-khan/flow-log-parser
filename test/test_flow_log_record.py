@@ -2,7 +2,7 @@
 import copy
 from typing import List
 import unittest
-from flow_log_parser.record import Version, Action, LogStatus, FlowLogRecord
+from flow_log_parser.flow_log_record import Version, Action, LogStatus, FlowLogRecord
 
 TEST_RECORD_VALUES: List[str] = ["2", "123456789012", "eni-0a1b2c3d", "10.0.1.201", "198.51.100.2", "443", "49153", "6", "25", "20000", "1620140761", "1620140821", "ACCEPT", "OK"]
 
