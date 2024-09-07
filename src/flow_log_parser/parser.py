@@ -1,7 +1,9 @@
+from logging import Logger
 import sys
 from dataclasses import dataclass, fields
 from typing import Dict, List, ClassVar, Any
 from flow_log_parser.constants import HELP_MESSAGE, TAG_COUNT_FILE, COLUMN_COUNT_FILE
+from flow_log_parser.logger_factory import LoggerFactory
 from flow_log_parser.record import FlowLogRecord
 
 
@@ -86,6 +88,7 @@ class FlowLogParser:
         return validated_args
 
     def __init__(self, args: FlowLogParserArgs):
+        self.logger: Logger = LoggerFactory.get_logger("flow_log_parser")
         self._flow_log_file: str = args.flow_log_file
         self._lookup_table_file: str = args.lookup_table_file
 
@@ -227,9 +230,19 @@ class FlowLogParser:
         Parses a flow log file based on a lookup table file
         Writes results to a `tag-counts.csv` and `column-counts.csv` file
         """
-        flow_log_records: List[FlowLogRecord] = self._read_flow_log_file(self._flow_log_file)
-        lookup_table: LookupTable = self._read_lookup_table_file(self._lookup_table_file)
+        self.logger.info(f"Reading flow log records from '{self.flow_log_file}'...")
+        flow_log_records: List[FlowLogRecord] = self._read_flow_log_file(self.flow_log_file)
 
+        self.logger.info(f"Reading CSV lookup table from '{self.lookup_table_file}'...")
+        lookup_table: LookupTable = self._read_lookup_table_file(self.lookup_table_file)
+
+        self.logger.info("Tagging flow log records by lookup table...")
         tagged_records: Dict[str, List[FlowLogRecord]] = self._tag_records(flow_log_records, lookup_table)
+
+        self.logger.info(f"Writing tag counts to '{TAG_COUNT_FILE}'...")
         self._write_tag_counts_to_csv(tagged_records)
+
+        self.logger.info(f"Writing column combination counts to '{COLUMN_COUNT_FILE}'...")
         self._write_column_counts_to_csv(lookup_table, tagged_records)
+
+        self.logger.info("Complete!")
