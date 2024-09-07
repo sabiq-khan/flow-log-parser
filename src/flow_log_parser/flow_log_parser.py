@@ -2,7 +2,7 @@ from logging import Logger
 import sys
 from dataclasses import dataclass, fields
 from typing import Dict, List, ClassVar, Any
-from flow_log_parser.constants import HELP_MESSAGE
+from flow_log_parser.constants import HELP_MESSAGE, LOGGER_NAME
 from flow_log_parser.logger_factory import LoggerFactory
 from flow_log_parser.flow_log_record import FlowLogRecord
 from flow_log_parser.lookup_table import LookupTable
@@ -68,7 +68,7 @@ class FlowLogParser:
         return validated_args
 
     def __init__(self, args: FlowLogParserArgs):
-        self.logger: Logger = LoggerFactory.get_logger("flow_log_parser")
+        self.logger: Logger = LoggerFactory.get_logger(LOGGER_NAME)
         self._flow_log_file: str = args.flow_log_file
         self._lookup_table_file: str = args.lookup_table_file
         self._tag_counts_output_file: str = args.tag_counts_output_file
@@ -218,7 +218,7 @@ class FlowLogParser:
     def parse_flow_logs(self):
         """
         Parses a flow log file based on a lookup table file
-        Writes results to a `tag-counts.csv` and `column-counts.csv` file
+        Writes results to the output files specified in `--tag-counts-output-file` and `--column-counts-output-file` options
         """
         self.logger.info(f"Reading flow log records from '{self.flow_log_file}'...")
         flow_log_records: List[FlowLogRecord] = self._read_flow_log_file(self.flow_log_file)

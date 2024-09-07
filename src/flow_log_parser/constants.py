@@ -1,3 +1,5 @@
+LOGGER_NAME: str = "flow_log_parser"
+
 HELP_MESSAGE: str = \
 """
 Usage: flow-log-parser [
@@ -8,11 +10,11 @@ Usage: flow-log-parser [
                         ]  
                         [--help/-h]
 
-- Parses a given VPC flow log file based on a given lookup table CSV file.
-- The lookup table can use any combination of columns from the flow log file.
-- Last column must always be `tag`.
-- The counts of how many records fit each tag are written to the specified tag counts output file in the current working directory.
-- The counts of how many times a certain column combination occurred are written to the specified column counts output file in the current working directory.
+- Parses a given VPC flow log file based on a given lookup table CSV file, mapping combinations of flow log column values to certain tags.
+- The counts of how many records were tagged with each tag are recorded.
+- The counts of how many records matched a combination of column values from the lookup table are also recorded.
+- These counts are written to the specified output files, in the current working directory.
+- For further information on usage, see: https://github.com/sabiq-khan/flow-log-parser?tab=readme-ov-file#usage
 
 Options:
     --flow-log-file                 Path to file containing VPC flow logs.
