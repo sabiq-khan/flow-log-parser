@@ -48,16 +48,21 @@ class FlowLogParserArgs:
 
 class FlowLogParser:
     @staticmethod
-    def read_args() -> FlowLogParserArgs:
+    def read_args(args: List[str]) -> FlowLogParserArgs:
         """
         Reads command line arguments into a FlowLogParserArgs object
         """
-        raw_args: List[str] = sys.argv[1:]
+        raw_args: List[str] = args
         args_read: Dict[str, str] = {}
 
         if (len(raw_args) == 0) or (("--help" in raw_args) or ("-h" in raw_args)):
             print(HELP_MESSAGE)
             sys.exit(0)
+        elif (len(raw_args) == 1) and (raw_args[0] != "--help") and (raw_args[0] != "-h"):
+            raise ValueError(
+                "Invalid arguments. "
+                "Run this script with '--help' to see usage."
+            )
         elif (len(raw_args) != 2*(FlowLogParserArgs.argc)):
             raise ValueError(
                 "Invalid number of arguments. "
@@ -81,7 +86,16 @@ class FlowLogParser:
         return validated_args
 
     def __init__(self, args: FlowLogParserArgs):
-        self.args: FlowLogParserArgs = args
+        self._flow_log_file: str = args.flow_log_file
+        self._lookup_table_file: str = args.lookup_table_file
+
+    @property
+    def flow_log_file(self) -> str:
+        return self._flow_log_file
+    
+    @property
+    def lookup_table_file(self) -> str:
+        return self._lookup_table_file
 
     def _read_flow_log_file(self, flow_log_file: str) -> List[FlowLogRecord]:
         """
@@ -213,11 +227,8 @@ class FlowLogParser:
         Parses a flow log file based on a lookup table file
         Writes results to a `tag-counts.csv` and `column-counts.csv` file
         """
-        flow_log_file: str = self.args.flow_log_file
-        lookup_table_file: str = self.args.lookup_table_file
-
-        flow_log_records: List[FlowLogRecord] = self._read_flow_log_file(flow_log_file)
-        lookup_table: LookupTable = self._read_lookup_table_file(lookup_table_file)
+        flow_log_records: List[FlowLogRecord] = self._read_flow_log_file(self._flow_log_file)
+        lookup_table: LookupTable = self._read_lookup_table_file(self._lookup_table_file)
 
         tagged_records: Dict[str, List[FlowLogRecord]] = self._tag_records(flow_log_records, lookup_table)
         self._write_tag_counts_to_csv(tagged_records)
